@@ -170,6 +170,15 @@ On "yes":
 cd "$PROJECT_DIR" && npx tsx scripts/run-extraction.ts <id>
 ```
 
+After extraction succeeds, if a schedule was configured (not manual), ask:
+
+```
+A schedule was configured, but automatic extraction only runs while the
+scheduler is active. Start the scheduler now? (yes/no)
+```
+
+On "yes": run `cd "$PROJECT_DIR" && npx tsx bin/websource.ts serve` in the background.
+
 ---
 
 ## Operations
