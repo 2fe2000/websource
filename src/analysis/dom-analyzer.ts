@@ -164,10 +164,21 @@ function computeGroupConfidence(elements: Element[], $: CheerioAPI): number {
   const firstEl = elements[0];
   const firstTag = firstEl.tagName;
   if (firstTag === 'article') confidence += 0.2;
+  if (firstTag === 'tr') {
+    // Table rows inside <table>/<tbody> are inherently structured data
+    const parent = $(firstEl).parent();
+    const parentTag = (parent.get(0) as Element | undefined)?.tagName;
+    if (parentTag === 'tbody' || parentTag === 'table') confidence += 0.25;
+  }
   const hasArticle = $(firstEl).find('article').length > 0;
   if (hasArticle) confidence += 0.15;
   const firstCls = $(firstEl).attr('class') || '';
   if (/card|product|item|listing|result|entry/i.test(firstCls)) confidence += 0.15;
+
+  // Penalize elements inside <footer> — typically navigation, not content
+  if ($(firstEl).closest('footer').length > 0) confidence -= 0.3;
+  const parentClasses = $(firstEl).parent().attr('class') || '';
+  if (/footer/i.test(parentClasses)) confidence -= 0.3;
 
   // Boost: microdata presence is a strong structured data signal
   const withItemprop = elements.filter((el) => $(el).find('[itemprop]').length > 0).length;

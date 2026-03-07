@@ -89,10 +89,12 @@ try {
   });
 
   if (schedule) {
+    const cronExpr = typeof schedule === 'string' ? schedule : schedule.cronExpr;
+    const preset = typeof schedule === 'string' ? undefined : schedule.preset;
     scheduleRepo.upsertSchedule({
       sourceId: source.id,
-      cronExpr: schedule.cronExpr,
-      preset: schedule.preset,
+      cronExpr,
+      preset,
     });
   }
 
