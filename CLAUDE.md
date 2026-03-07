@@ -36,7 +36,8 @@ in the repository at `skills/websource/SKILL.md`. See `CONTRIBUTING.md` for inst
 
 | Situation | Response |
 |-----------|---------|
-| `fieldQuality: none/poor` | Retry with `--mode rendered` |
+| `fieldQuality: none/poor` with `--mode auto` | Retry with `--mode rendered` |
+| Still `none/poor` after rendered | Check `suggestedBlock.selector` — if it looks like a nav/sidebar (`.lnb`, `.sidebar`, `nav li`), the URL is pointing at the wrong page. Infer a better URL (search results, filtered listing) and retry automatically before asking the user |
 | `robotsAllowed: false` | Warn the user and confirm before continuing |
 | Selector too broad (e.g. `div > div`) | Use Playwright to inspect DOM directly and find a more specific selector |
 | No repeated blocks detected | Page may be a single detail page — suggest trying a different URL |

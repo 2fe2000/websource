@@ -68,7 +68,14 @@ cd "$PROJECT_DIR" && npx tsx scripts/analyze-page.ts <URL> --mode auto
 ```
 
 **Interpreting the result:**
-- `fieldQuality: "none"` or `"poor"` → retry with `--mode rendered`
+
+1. `fieldQuality: "none"` or `"poor"` with `--mode auto` → retry with `--mode rendered`
+2. Still `"none"` or `"poor"` after rendered → the URL itself may be wrong. Diagnose:
+   - Check `suggestedBlock.selector` — if it looks like a nav/sidebar (e.g. `.lnb`, `.sidebar`, `nav li`), the page is not the actual listing page
+   - Look at the page structure and infer a better URL: search results page, category listing, filtered view (e.g. adding `?word=keyword` or `/list`)
+   - Try the new URL with `--mode rendered` before asking the user
+3. If still failing after URL change → show the user what was tried and ask them to provide the correct listing page URL
+
 - On success, display `suggestedFields` as a table
 
 Example table:
