@@ -1,0 +1,10 @@
+node_modules/
+dist/
+data/
+*.db
+*.db-journal
+.env
+.DS_Store
+logs/
+*.lock
+!package-lock.json

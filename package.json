@@ -1,0 +1,64 @@
+{
+  "name": "websource",
+  "version": "0.1.0",
+  "description": "Local-first CLI tool that turns websites into reusable structured data sources",
+  "license": "MIT",
+  "author": "2fe2000 (https://github.com/2fe2000)",
+  "contributors": [
+    "2fe2000 (https://github.com/2fe2000)",
+    "Claude Sonnet 4.6 (https://claude.ai)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2fe2000/websource"
+  },
+  "homepage": "https://github.com/2fe2000/websource#readme",
+  "keywords": [
+    "web-scraping",
+    "data-extraction",
+    "cli",
+    "sqlite",
+    "playwright",
+    "cheerio"
+  ],
+  "type": "module",
+  "bin": {
+    "websource": "./dist/bin/websource.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx bin/websource.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "@inquirer/prompts": "^7.2.0",
+    "cheerio": "^1.0.0",
+    "playwright": "^1.49.0",
+    "better-sqlite3": "^11.7.0",
+    "zod": "^3.24.0",
+    "fastify": "^5.2.0",
+    "node-cron": "^3.0.3",
+    "pino": "^9.6.0",
+    "pino-pretty": "^13.0.0",
+    "nanoid": "^5.0.9",
+    "cli-table3": "^0.6.5",
+    "chalk": "^5.4.1",
+    "yaml": "^2.7.0",
+    "csv-stringify": "^6.5.2",
+    "undici": "^7.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "tsx": "^4.19.0",
+    "vitest": "^2.1.0",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.0",
+    "@types/node-cron": "^3.0.11"
+  }
+}
