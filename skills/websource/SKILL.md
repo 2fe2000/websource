@@ -170,6 +170,15 @@ On "yes":
 cd "$PROJECT_DIR" && npx tsx scripts/run-extraction.ts <id>
 ```
 
+After extraction succeeds, if a schedule was configured (not manual), ask:
+
+```
+스케줄이 설정되었지만, 스케줄러(serve)가 실행 중이어야 자동 추출이 동작합니다.
+지금 스케줄러를 실행할까요? (yes/no)
+```
+
+On "yes": run `cd "$PROJECT_DIR" && npx tsx bin/websource.ts serve` in the background.
+
 ---
 
 ## Operations
