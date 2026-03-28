@@ -106,7 +106,11 @@ const FIELD_RULES: FieldRule[] = [
 
 // Returns true if a CSS class name carries semantic meaning (not Tailwind atomic / CSS-in-JS hash)
 function isSemanticClass(cls: string): boolean {
+  // Tailwind responsive/state prefixes: md:, lg:, hover:, focus:, etc.
+  if (cls.includes(':')) return false;
   if (/^(flex|grid|gap|p|px|py|pt|pb|pl|pr|m|mx|my|mt|mb|ml|mr|w|h|min|max|text|font|bg|border|rounded|shadow|overflow|items|justify|space|col|row|z|top|left|right|bottom|opacity|cursor|transition|transform|scale|rotate|translate|hidden|block|inline|relative|absolute|fixed|sticky)-/.test(cls)) return false;
+  // Tailwind arbitrary values: w-[100px], bg-[#fff], etc.
+  if (cls.includes('[') || cls.includes(']')) return false;
   if (/^[a-z]-\d/.test(cls)) return false;
   if (/^css-[a-z0-9]{4,}$/i.test(cls)) return false;
   if (/^sc-[a-z0-9]{4,}$/i.test(cls)) return false;

@@ -55,8 +55,13 @@ function serializeFingerprint(fp: DOMFingerprint): string {
 
 // Returns true if a CSS class name carries semantic meaning (not Tailwind atomic / CSS-in-JS hash)
 function isSemanticClass(cls: string): boolean {
+  // Tailwind responsive/state prefixes: md:, lg:, hover:, focus:, etc.
+  // These contain colons which break CSS selector parsing.
+  if (cls.includes(':')) return false;
   // Tailwind atomic utilities
   if (/^(flex|grid|gap|p|px|py|pt|pb|pl|pr|m|mx|my|mt|mb|ml|mr|w|h|min|max|text|font|bg|border|rounded|shadow|overflow|items|justify|space|col|row|z|top|left|right|bottom|inset|opacity|cursor|select|pointer|transition|duration|ease|transform|scale|rotate|translate|sr|not|hidden|block|inline|relative|absolute|fixed|sticky|float|clear|object|aspect|leading|tracking|align|whitespace|break|truncate|ring|outline|appearance|resize|order|grow|shrink|basis|self|place|content|divide|display)-/.test(cls)) return false;
+  // Tailwind arbitrary values: w-[100px], bg-[#fff], etc.
+  if (cls.includes('[') || cls.includes(']')) return false;
   // Single-char Tailwind: p-4, m-2, etc.
   if (/^[a-z]-\d/.test(cls)) return false;
   // CSS-in-JS hashed classes: css-abc123, sc-xyz789
@@ -235,6 +240,17 @@ export function detectRepeatedBlocks(html: string): RepeatedBlock[] {
 
       const selector = buildItemSelector($, elements[0], container);
       const parentSelector = buildSelector($, container);
+
+      // Validate that generated selectors are parseable by Cheerio.
+      // Tailwind classes with special chars (colons, brackets) can produce
+      // invalid CSS selectors — skip the group rather than crashing.
+      try {
+        $(selector);
+        $(parentSelector);
+      } catch {
+        continue;
+      }
+
       const confidence = computeGroupConfidence(elements, $);
       const sampleHtml = $.html(elements[0]) ?? '';
 
