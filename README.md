@@ -50,10 +50,12 @@ and connects to the websource MCP server. No extra setup required.
 
 ### MCP server (user-level — any directory)
 
-Register once to use the `/websource` wizard from any directory:
+Register once to use websource tools from any directory:
 
 ```bash
-claude mcp add websource -s user -- npx tsx /absolute/path/to/websource/bin/mcp-server.ts
+# The server must run from the websource project directory.
+# Use bash -c with cd to ensure the correct working directory:
+claude mcp add websource -s user -- bash -c "cd /absolute/path/to/websource && npx tsx bin/mcp-server.ts"
 ```
 
 ### Claude Code skill (interactive wizard)
